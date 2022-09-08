@@ -1,24 +1,15 @@
 import React from 'react';
-import {
-  FlatList,
-  Image,
-  Platform,
-  Pressable,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import Animated, {
-  Extrapolate,
-  interpolate,
-  interpolateColor,
   useAnimatedRef,
   useAnimatedScrollHandler,
-  useAnimatedStyle,
   useDerivedValue,
   useSharedValue
 } from 'react-native-reanimated';
-import ArrowRightIcon from '../assets/icons/arrow-right.svg';
+import CustomText from '../components/CustomText';
+import FloatingActionButton from '../components/FloatingActionButton';
+import ImageItem from '../components/ImageItem';
+import Paginator from '../components/Paginator';
 import { COLORS, FONTS, ONBOARDING, SIZES } from '../constants';
 
 const Onboarding = () => {
@@ -51,23 +42,11 @@ const Onboarding = () => {
         onScroll={scrollHandler}
         data={ONBOARDING}
         keyExtractor={item => item.id}
-        renderItem={({item, index}) => (
-          <View style={styles.imageItem}>
-            <Image
-              style={styles.image}
-              source={item.source}
-              resizeMode="cover"
-            />
-          </View>
-        )}
+        renderItem={({item}) => <ImageItem item={item} />}
       />
       <View style={styles.content}>
         <Text style={styles.title}>
-          Find The Best{' '}
-          <View style={styles.innerTitleContainer}>
-            <Text style={styles.innerTitle}>Fashion</Text>
-          </View>{' '}
-          Style For You
+          Find The Best <CustomText>Fashion</CustomText> Style For You
         </Text>
 
         <Text style={styles.description}>
@@ -75,40 +54,9 @@ const Onboarding = () => {
           styles
         </Text>
 
-        <Pressable style={styles.fab} onPress={handlePress}>
-          <ArrowRightIcon />
-        </Pressable>
+        <FloatingActionButton onPress={handlePress} />
 
-        <View style={styles.dotContainer}>
-          {ONBOARDING.map(({id}, index) => {
-            const rDotStyle = useAnimatedStyle(() => {
-              const width = interpolate(
-                translateX.value,
-                [
-                  (index - 1) * SIZES.screenWidth,
-                  index * SIZES.screenWidth,
-                  (index + 1) * SIZES.screenWidth,
-                ],
-                [8, 24, 8],
-                Extrapolate.CLAMP,
-              );
-
-              const backgroundColor = interpolateColor(
-                translateX.value,
-                [
-                  (index - 1) * SIZES.screenWidth,
-                  index * SIZES.screenWidth,
-                  (index + 1) * SIZES.screenWidth,
-                ],
-                [COLORS.grey, COLORS.primary, COLORS.grey],
-              );
-
-              return {width, backgroundColor};
-            });
-
-            return <Animated.View key={id} style={[styles.dot, rDotStyle]} />;
-          })}
-        </View>
+        <Paginator translateX={translateX} />
       </View>
     </View>
   );
@@ -119,14 +67,6 @@ export default Onboarding;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  imageItem: {
-    height: SIZES.screenHeight * 0.63,
-    width: SIZES.screenWidth,
-  },
-  image: {
-    height: SIZES.screenHeight * 0.63,
-    width: SIZES.screenWidth,
   },
   content: {
     position: 'absolute',
@@ -148,19 +88,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: FONTS[700],
   },
-  innerTitleContainer: {
-    backgroundColor: COLORS.primary,
-    transform: [
-      {rotate: '-3deg'},
-      {translateY: Platform.OS === 'android' ? 8 : 2},
-    ],
-  },
-  innerTitle: {
-    fontSize: 24,
-    fontFamily: FONTS[700],
-    color: COLORS.white,
-    transform: [{rotate: '3deg'}],
-  },
   description: {
     maxWidth: SIZES.screenWidth * 0.75,
     marginTop: 16,
@@ -168,30 +95,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: COLORS.grey,
     fontFamily: FONTS[600],
-    fontSize: 16,
-  },
-  fab: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: COLORS.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 16,
-    shadowOffset: {width: 0, height: 2},
-    shadowColor: COLORS.primary,
-    shadowOpacity: 0.5,
-    shadowRadius: 4,
-    elevation: 8,
-  },
-  dotContainer: {
-    flexDirection: 'row',
-  },
-  dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    marginHorizontal: 6,
-    backgroundColor: COLORS.grey,
+    fontSize: 14,
   },
 });
