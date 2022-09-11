@@ -1,7 +1,7 @@
-import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import ArrowRightIcon from '../assets/icons/arrow-right.svg';
-import {COLORS} from '../constants';
+import { Pressable, StyleSheet } from 'react-native';
+import ArrowRightIcon from '../../assets/icons/arrow-right.svg';
+import { COLORS } from '../../constants';
 
 interface FabProps {
   onPress: () => void;

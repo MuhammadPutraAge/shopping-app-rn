@@ -1,13 +1,13 @@
-import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {COLORS, ONBOARDING, SIZES} from '../constants';
+import { StyleSheet, View } from 'react-native';
 import Animated, {
   Extrapolate,
   interpolate,
   interpolateColor,
   SharedValue,
-  useAnimatedStyle,
+  useAnimatedStyle
 } from 'react-native-reanimated';
+import { COLORS, ONBOARDING, SIZES } from '../../constants';
 
 interface PaginatorProps {
   translateX: SharedValue<number>;

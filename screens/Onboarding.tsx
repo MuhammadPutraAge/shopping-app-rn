@@ -1,18 +1,22 @@
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import {FlatList, StatusBar, StyleSheet, Text, View} from 'react-native';
 import Animated, {
   useAnimatedRef,
   useAnimatedScrollHandler,
   useDerivedValue,
-  useSharedValue
+  useSharedValue,
 } from 'react-native-reanimated';
-import CustomText from '../components/CustomText';
-import FloatingActionButton from '../components/FloatingActionButton';
-import ImageItem from '../components/ImageItem';
-import Paginator from '../components/Paginator';
-import { COLORS, FONTS, ONBOARDING, SIZES } from '../constants';
+import CustomText from '../components/onboarding/CustomText';
+import FloatingActionButton from '../components/onboarding/FloatingActionButton';
+import ImageItem from '../components/onboarding/ImageItem';
+import Paginator from '../components/onboarding/Paginator';
+import {COLORS, FONTS, ONBOARDING, SIZES} from '../constants';
+import {RootStackParamList} from '../types';
 
-const Onboarding = () => {
+type Props = NativeStackScreenProps<RootStackParamList, 'Onboarding'>;
+
+const Onboarding: React.FC<Props> = ({navigation}) => {
   const translateX = useSharedValue(0);
 
   const activeIndex = useDerivedValue(() => {
@@ -26,18 +30,23 @@ const Onboarding = () => {
   });
 
   const handlePress = () => {
-    if (activeIndex.value === ONBOARDING.length - 1) return;
-    scrollRef.current?.scrollToIndex({index: activeIndex.value + 1});
+    if (activeIndex.value === ONBOARDING.length - 1) {
+      navigation.navigate('Home');
+    } else {
+      scrollRef.current?.scrollToIndex({index: activeIndex.value + 1});
+    }
   };
 
   return (
     <View style={styles.container}>
+      <StatusBar translucent={true} backgroundColor="transparent" />
       <Animated.FlatList
         ref={scrollRef as any}
         horizontal
         showsHorizontalScrollIndicator={false}
         scrollEventThrottle={16}
         pagingEnabled
+        decelerationRate="fast"
         bounces={false}
         onScroll={scrollHandler}
         data={ONBOARDING}

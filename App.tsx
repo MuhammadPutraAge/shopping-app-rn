@@ -1,23 +1,22 @@
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import { StatusBar, StyleSheet, View } from 'react-native';
-import { COLORS } from './constants';
+import Home from './screens/Home';
 import Onboarding from './screens/Onboarding';
+import { RootStackParamList } from './types';
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const App = () => {
   return (
-    <View style={styles.container}>
-      <StatusBar backgroundColor={COLORS.primary} />
-        <Onboarding />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{headerShown: false, animation: 'slide_from_right'}}>
+        <Stack.Screen name="Onboarding" component={Onboarding} />
+        <Stack.Screen name="Home" component={Home} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
 export default App;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});

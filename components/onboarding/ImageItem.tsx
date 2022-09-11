@@ -1,15 +1,21 @@
 import React from 'react';
-import {Image, ImageSourcePropType, StyleSheet, View} from 'react-native';
-import {SIZES} from '../constants';
+import {Image, StyleSheet, View} from 'react-native';
+import {SIZES} from '../../constants';
+import {OnboardingDataType} from '../../types';
 
 interface ImageItemProps {
-  item: {id: string; source: ImageSourcePropType};
+  item: OnboardingDataType;
 }
 
 const ImageItem: React.FC<ImageItemProps> = ({item}) => {
   return (
     <View style={styles.imageItem}>
-      <Image style={styles.image} source={item.source} resizeMode="cover" />
+      <Image
+        style={styles.image}
+        source={item.source}
+        resizeMode="cover"
+        fadeDuration={0}
+      />
     </View>
   );
 };

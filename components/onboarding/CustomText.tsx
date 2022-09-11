@@ -1,6 +1,6 @@
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {COLORS, FONTS} from '../constants';
+import {COLORS, FONTS} from '../../constants';
 
 interface CustomTextProps {
   children: string;
